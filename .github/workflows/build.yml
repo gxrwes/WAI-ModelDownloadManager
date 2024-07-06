@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        persist-credentials: false
 
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
@@ -34,9 +36,25 @@ jobs:
         $commit = (git rev-parse --short HEAD)
         Compress-Archive -Path ./WAIModelDownloader/bin/Release/net6.0/publish/* -DestinationPath ./Releases/WAIModelDownloader_$timestamp_$commit.zip
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Configure git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Push zip to Releases directory
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
+        git checkout -b add-release
+        git add ./Releases/WAIModelDownloader_*.zip
+        git commit -m "Add release zip file"
+        git push -u origin add-release
+
+    - name: Create a pull request
+      uses: peter-evans/create-pull-request@v4
       with:
-        name: WAIModelDownloader
-        path: ./Releases/WAIModelDownloader_*.zip
-        if-no-files-found: error
+        token: ${{ secrets.GH_PAT }}
+        commit-message: "Add release zip file"
+        branch: add-release
+        title: "Add release zip file"
+        body: "This pull request adds the release zip file."
