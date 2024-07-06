@@ -1,0 +1,53 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ./WAIModelDownloader/WAIModelDownloader.sln
+
+    - name: Build project
+      run: dotnet build --configuration Release ./WAIModelDownloader/WAIModelDownloader.sln
+
+    - name: Create Releases directory
+      run: mkdir -p ./Releases
+
+    - name: Get current timestamp
+      id: get-timestamp
+      run: echo "::set-output name=timestamp::$(date -u +'%Y%m%d%H%M%S')"
+
+    - name: Get short commit hash
+      id: get-commit
+      run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
+
+    - name: Copy build artifacts
+      run: |
+        TIMESTAMP=${{ steps.get-timestamp.outputs.timestamp }}
+        COMMIT=${{ steps.get-commit.outputs.commit }}
+        cp ./WAIModelDownloader/bin/Release/net6.0/win-x64/publish/WAIModelDownloader.exe ./Releases/WAIModelDownloader_${TIMESTAMP}_${COMMIT}.exe
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: WAIModelDownloader
+        path: ./Releases/WAIModelDownloader_*.exe
