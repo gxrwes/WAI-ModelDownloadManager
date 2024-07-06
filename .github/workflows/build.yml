@@ -13,8 +13,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        persist-credentials: false
 
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
@@ -36,17 +34,23 @@ jobs:
         $commit = (git rev-parse --short HEAD)
         Compress-Archive -Path ./WAIModelDownloader/bin/Release/net6.0/publish/* -DestinationPath ./Releases/WAIModelDownloader_$timestamp_$commit.zip
 
-    - name: Configure git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-    - name: Commit and push release zip
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
       env:
-        GH_PAT: ${{ secrets.GH_PAT }}
-      run: |
-        git add ./Releases/WAIModelDownloader_*.zip
-        git commit -m "Add release zip file"
-        git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
-        git push origin HEAD:$(git rev-parse --abbrev-ref HEAD)
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "release-${{ github.sha }}"
+        release_name: "Release ${{ github.sha }}"
+        draft: false
+        prerelease: false
 
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Releases/WAIModelDownloader_*.zip
+        asset_name: WAIModelDownloader.zip
+        asset_content_type: application/zip
