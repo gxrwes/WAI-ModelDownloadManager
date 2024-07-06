@@ -25,6 +25,9 @@ jobs:
     - name: Publish project
       run: dotnet publish --configuration Release --output ./WAIModelDownloader/bin/Release/net6.0/publish ./WAIModelDownloader/WAIModelDownloader.sln
 
+    - name: Copy README.md to publish directory
+      run: Copy-Item -Path README.md -Destination ./WAIModelDownloader/bin/Release/net6.0/publish
+
     - name: Create Releases directory
       run: New-Item -ItemType Directory -Force -Path ./Releases
 
