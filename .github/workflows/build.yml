@@ -28,20 +28,10 @@ jobs:
     - name: Create Releases directory
       run: mkdir -p ./Releases
 
-    - name: Get current timestamp
-      id: get-timestamp
+    - name: Copy build artifacts with timestamp and commit hash
       run: |
-        echo "TIMESTAMP=$(date -u +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-    - name: Get short commit hash
-      id: get-commit
-      run: |
-        echo "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-    - name: Copy build artifacts
-      run: |
-        TIMESTAMP=${{ env.TIMESTAMP }}
-        COMMIT=${{ env.COMMIT }}
+        TIMESTAMP=$(date -u +'%Y%m%d%H%M%S')
+        COMMIT=$(git rev-parse --short HEAD)
         cp ./WAIModelDownloader/bin/Release/net6.0/win-x64/publish/WAIModelDownloader.exe ./Releases/WAIModelDownloader_${TIMESTAMP}_${COMMIT}.exe
 
     - name: Upload artifact
