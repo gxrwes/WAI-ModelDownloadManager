@@ -26,16 +26,17 @@ jobs:
       run: dotnet build --configuration Release ./WAIModelDownloader/WAIModelDownloader.sln
 
     - name: Create Releases directory
-      run: mkdir -p ./Releases
+      run: New-Item -ItemType Directory -Force -Path ./Releases
 
     - name: Copy build artifacts with timestamp and commit hash
       run: |
-        TIMESTAMP=$(date -u +'%Y%m%d%H%M%S')
-        COMMIT=$(git rev-parse --short HEAD)
-        cp ./WAIModelDownloader/bin/Release/net6.0/win-x64/publish/WAIModelDownloader.exe ./Releases/WAIModelDownloader_${TIMESTAMP}_${COMMIT}.exe
+        $timestamp = Get-Date -Format "yyyyMMddHHmmss"
+        $commit = (git rev-parse --short HEAD)
+        Copy-Item -Path ./WAIModelDownloader/bin/Release/net6.0/win-x64/publish/WAIModelDownloader.exe -Destination ./Releases/WAIModelDownloader_$timestamp_$commit.exe
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: WAIModelDownloader
         path: ./Releases/WAIModelDownloader_*.exe
+        if-no-files-found: error
