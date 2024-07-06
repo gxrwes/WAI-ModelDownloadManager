@@ -22,20 +22,35 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./WAIModelDownloader/WAIModelDownloader.sln
 
+    - name: List files after restore
+      run: ls -R
+
     - name: Publish project
       run: dotnet publish ./WAIModelDownloader/WAIModelDownloader.csproj --configuration Release --output ./WAIModelDownloader/bin/Release/net8.0/publish
+
+    - name: List files after publish
+      run: ls -R ./WAIModelDownloader/bin/Release/net8.0/publish
 
     - name: Copy README.md to publish directory
       run: Copy-Item -Path README.md -Destination ./WAIModelDownloader/bin/Release/net8.0/publish
 
+    - name: List files after copying README.md
+      run: ls -R ./WAIModelDownloader/bin/Release/net8.0/publish
+
     - name: Create Releases directory
       run: New-Item -ItemType Directory -Force -Path ./Releases
+
+    - name: List files in Releases directory
+      run: ls -R ./Releases
 
     - name: Zip build artifacts with timestamp and commit hash
       run: |
         $timestamp = Get-Date -Format "yyyyMMddHHmmss"
         $commit = (git rev-parse --short HEAD)
         Compress-Archive -Path ./WAIModelDownloader/bin/Release/net8.0/publish/* -DestinationPath ./Releases/WAIModelDownloader_$timestamp_$commit.zip
+
+    - name: List files in Releases directory after zipping
+      run: ls -R ./Releases
 
     - name: Create GitHub Release
       id: create_release
@@ -47,6 +62,9 @@ jobs:
         release_name: "Release ${{ github.sha }}"
         draft: false
         prerelease: false
+
+    - name: List files in Releases directory before uploading
+      run: ls -R ./Releases
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
