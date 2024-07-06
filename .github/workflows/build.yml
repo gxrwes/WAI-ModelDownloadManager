@@ -25,6 +25,9 @@ jobs:
     - name: Publish project
       run: dotnet publish --configuration Release --output ./WAIModelDownloader/bin/Release/net6.0/publish ./WAIModelDownloader/WAIModelDownloader.sln
 
+    - name: Copy README.md to publish directory
+      run: Copy-Item -Path README.md -Destination ./WAIModelDownloader/bin/Release/net6.0/publish
+
     - name: Create Releases directory
       run: New-Item -ItemType Directory -Force -Path ./Releases
 
@@ -34,9 +37,23 @@ jobs:
         $commit = (git rev-parse --short HEAD)
         Compress-Archive -Path ./WAIModelDownloader/bin/Release/net6.0/publish/* -DestinationPath ./Releases/WAIModelDownloader_$timestamp_$commit.zip
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: WAIModelDownloader
-        path: ./Releases/WAIModelDownloader_*.zip
-        if-no-files-found: error
+        tag_name: "release-${{ github.sha }}"
+        release_name: "Release ${{ github.sha }}"
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Releases/*.zip
+        asset_name: WAIModelDownloader.zip
+        asset_content_type: application/zip
