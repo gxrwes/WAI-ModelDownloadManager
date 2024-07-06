@@ -30,16 +30,18 @@ jobs:
 
     - name: Get current timestamp
       id: get-timestamp
-      run: echo "timestamp=$(date -u +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      run: |
+        echo "TIMESTAMP=$(date -u +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
     - name: Get short commit hash
       id: get-commit
-      run: echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      run: |
+        echo "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
     - name: Copy build artifacts
       run: |
-        TIMESTAMP=${{ env.timestamp }}
-        COMMIT=${{ env.commit }}
+        TIMESTAMP=${{ env.TIMESTAMP }}
+        COMMIT=${{ env.COMMIT }}
         cp ./WAIModelDownloader/bin/Release/net6.0/win-x64/publish/WAIModelDownloader.exe ./Releases/WAIModelDownloader_${TIMESTAMP}_${COMMIT}.exe
 
     - name: Upload artifact
