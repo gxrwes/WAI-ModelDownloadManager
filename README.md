@@ -11,6 +11,11 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
 
 ## Installation
 
+1. **Download the latest release:**
+   - Navigate to the [Releases](https://github.com/gxrwes/WAI-ModelDownloadManager/releases) page of the repository.
+   - Download the latest `WAIModelDownloader_<timestamp>_<commit>.zip` file.
+
+## Alternativeley
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/WAIModelDownloader.git
