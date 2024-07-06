@@ -17,7 +17,7 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.x'
+        dotnet-version: '8.x'
 
     - name: Restore dependencies
       run: dotnet restore ./WAIModelDownloader/WAIModelDownloader.sln
@@ -28,15 +28,15 @@ jobs:
     - name: Create Releases directory
       run: New-Item -ItemType Directory -Force -Path ./Releases
 
-    - name: Copy build artifacts with timestamp and commit hash
+    - name: Zip build artifacts with timestamp and commit hash
       run: |
         $timestamp = Get-Date -Format "yyyyMMddHHmmss"
         $commit = (git rev-parse --short HEAD)
-        Copy-Item -Path ./WAIModelDownloader/bin/Release/net6.0/publish/WAIModelDownloader.exe -Destination ./Releases/WAIModelDownloader_$timestamp_$commit.exe
+        Compress-Archive -Path ./WAIModelDownloader/bin/Release/net6.0/publish/* -DestinationPath ./Releases/WAIModelDownloader_$timestamp_$commit.zip
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: WAIModelDownloader
-        path: ./Releases/WAIModelDownloader_*.exe
+        path: ./Releases/WAIModelDownloader_*.zip
         if-no-files-found: error
