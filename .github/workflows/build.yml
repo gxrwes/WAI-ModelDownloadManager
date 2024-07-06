@@ -1,10 +1,6 @@
 name: Build and Release
 
 on:
-  push:
-    branches:
-      - main
-      - dev
   pull_request:
     branches:
       - main
@@ -34,16 +30,16 @@ jobs:
 
     - name: Get current timestamp
       id: get-timestamp
-      run: echo "::set-output name=timestamp::$(date -u +'%Y%m%d%H%M%S')"
+      run: echo "timestamp=$(date -u +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
     - name: Get short commit hash
       id: get-commit
-      run: echo "::set-output name=commit::$(git rev-parse --short HEAD)"
+      run: echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
     - name: Copy build artifacts
       run: |
-        TIMESTAMP=${{ steps.get-timestamp.outputs.timestamp }}
-        COMMIT=${{ steps.get-commit.outputs.commit }}
+        TIMESTAMP=${{ env.timestamp }}
+        COMMIT=${{ env.commit }}
         cp ./WAIModelDownloader/bin/Release/net6.0/win-x64/publish/WAIModelDownloader.exe ./Releases/WAIModelDownloader_${TIMESTAMP}_${COMMIT}.exe
 
     - name: Upload artifact
