@@ -1,0 +1,79 @@
+name: Build and Release
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ./WAIModelDownloader/WAIModelDownloader.sln
+
+    - name: List files after restore
+      run: ls -R
+
+    - name: Publish project
+      run: dotnet publish ./WAIModelDownloader/WAIModelDownloader.csproj --configuration Release --output ./WAIModelDownloader/bin/Release/net8.0/publish
+
+    - name: List files after publish
+      run: ls -R ./WAIModelDownloader/bin/Release/net8.0/publish
+
+    - name: Copy README.md to publish directory
+      run: Copy-Item -Path README.md -Destination ./WAIModelDownloader/bin/Release/net8.0/publish
+
+    - name: List files after copying README.md
+      run: ls -R ./WAIModelDownloader/bin/Release/net8.0/publish
+
+    - name: Create Releases directory
+      run: New-Item -ItemType Directory -Force -Path ./Releases
+
+    - name: List files in Releases directory
+      run: ls -R ./Releases
+
+    - name: Zip build artifacts with timestamp and commit hash
+      run: |
+        $timestamp = Get-Date -Format "yyyyMMddHHmmss"
+        $commit = (git rev-parse --short HEAD)
+        $zipPath = "./Releases/WAIModelDownloader_$timestamp_$commit.zip"
+        Compress-Archive -Path ./WAIModelDownloader/bin/Release/net8.0/publish/* -DestinationPath $zipPath
+        echo "##[set-output name=zip_path;]$zipPath"
+
+    - name: List files in Releases directory after zipping
+      run: ls -R ./Releases
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "release-${{ github.sha }}"
+        release_name: "Release ${{ github.sha }}"
+        draft: false
+        prerelease: false
+
+    - name: List files in Releases directory before uploading
+      run: ls -R ./Releases
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.zip_build.outputs.zip_path }}
+        asset_name: WAIModelDownloader.zip
+        asset_content_type: application/zip

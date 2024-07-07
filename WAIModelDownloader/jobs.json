@@ -1,24 +1,26 @@
 [
   {
-    "Name": "Example Model 1",
-    "ModelUrl": "http://example.com/model1",
-    "ModelType": "lora",
-    "ModelDownloadPath": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\loras\\Model1",
+    "Name": "PixelAchemy",
+    "ModelUrl": "https://civitai.com/models/469255/pixel-alchemy?modelVersionId=574705",
+    "ModelType": "Checkpoints",
+    "ModelDownloadPath": "",
     "Downloaded": false,
-    "ModelDownloadLink": null,
-    "LastDownloaded": "0001-01-01T00:00:00",
-    "Errors": null,
-    "Enabled": true
+    "ModelDownloadLink": "",
+    "LastDownloaded": "",
+    "Errors": "",
+    "Enabled": false,
+    "OpenPathCommand": {}
   },
   {
-    "Name": "Example Model 2",
-    "ModelUrl": "http://example.com/model2",
-    "ModelType": "Checkpoints",
-    "ModelDownloadPath": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\checkpoints\\Model2",
+    "Name": "goofball_cute_anime",
+    "ModelUrl": "https://civitai.com/models/53761?modelVersionId=285757",
+    "ModelType": "lora",
+    "ModelDownloadPath": "",
     "Downloaded": false,
-    "ModelDownloadLink": null,
-    "LastDownloaded": "0001-01-01T00:00:00",
-    "Errors": null,
-    "Enabled": true
+    "ModelDownloadLink": "",
+    "LastDownloaded": "",
+    "Errors": "",
+    "Enabled": false,
+    "OpenPathCommand": {}
   }
 ]

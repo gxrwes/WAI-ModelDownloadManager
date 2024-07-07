@@ -1,19 +1,26 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Windows.Input;
 using WAIModelDownloader.Commands;
 
 namespace WAIModelDownloader.Jobs
 {
-    public class DownloadModelJob
+    public class DownloadModelJob : IDeserializationCallback
     {
         public string Name { get; set; }
         public string ModelUrl { get; set; }
-        public string ModelType { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ModelType ModelType { get; set; }
+
         public string ModelDownloadPath { get; set; }
         public bool Downloaded { get; set; }
         public string ModelDownloadLink { get; set; }
-        public DateTime LastDownloaded { get; set; }
+        public DateTime? LastDownloaded { get; set; }
         public string Errors { get; set; }
         public bool Enabled { get; set; }
         public ICommand OpenPathCommand { get; set; }
@@ -58,6 +65,16 @@ namespace WAIModelDownloader.Jobs
                         });
                     }
                 }
+            }
+        }
+
+        public void OnDeserialization(object sender)
+        {
+            if (!Enum.IsDefined(typeof(ModelType), ModelType))
+            {
+                ModelType = ModelType.Lora;
+                Enabled = false;
+                Errors = "Invalid ModelType detected during deserialization. Set to default (Lora) and disabled.";
             }
         }
     }

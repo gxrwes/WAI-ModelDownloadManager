@@ -11,7 +11,18 @@
             <TextBox x:Name="ModelUrlTextBox" Text="{Binding ModelUrl, Mode=TwoWay}"/>
 
             <TextBlock Text="Model Type"/>
-            <TextBox x:Name="ModelTypeTextBox" Text="{Binding ModelType, Mode=TwoWay}"/>
+            <ComboBox x:Name="ModelTypeComboBox" SelectedValue="{Binding ModelType, Mode=TwoWay}" SelectedValuePath="Content" DisplayMemberPath="Content">
+                <ComboBoxItem Content="Checkpoints"/>
+                <ComboBoxItem Content="Lora"/>
+                <ComboBoxItem Content="Upscalers"/>
+                <ComboBoxItem Content="TextualInversion"/>
+                <ComboBoxItem Content="Embeddings"/>
+                <ComboBoxItem Content="VAE"/>
+                <ComboBoxItem Content="ControlNet"/>
+                <ComboBoxItem Content="StyleGAN"/>
+                <ComboBoxItem Content="Inpainting"/>
+                <ComboBoxItem Content="SuperResolution"/>
+            </ComboBox>
 
             <TextBlock Text="Download Path"/>
             <TextBox x:Name="ModelDownloadPathTextBox" Text="{Binding ModelDownloadPath, Mode=TwoWay}"/>

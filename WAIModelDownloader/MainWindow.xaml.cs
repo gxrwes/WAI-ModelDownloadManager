@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using WAIModelDownloader.Jobs;
 
 namespace WAIModelDownloader
@@ -63,6 +65,12 @@ namespace WAIModelDownloader
         {
             if (dataGrid.SelectedItem is DownloadModelJob selectedJob)
             {
+                var editableCollectionView = CollectionViewSource.GetDefaultView(DownloadModelJobs) as IEditableCollectionView;
+                if (editableCollectionView != null && editableCollectionView.IsEditingItem)
+                {
+                    editableCollectionView.CommitEdit();
+                }
+
                 EditJobWindow editJobWindow = new EditJobWindow(selectedJob);
                 if (editJobWindow.ShowDialog() == true)
                 {
@@ -164,6 +172,84 @@ namespace WAIModelDownloader
         private void LogError(string message, Exception ex)
         {
             Log(message + ": " + ex.Message);
+        }
+        private void ExportJobs_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json",
+                DefaultExt = ".json"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var filePath = saveFileDialog.FileName;
+                try
+                {
+                    _jobManager.SaveJobs(filePath, DownloadModelJobs);
+                    MessageBox.Show("Jobs exported successfully.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error exporting jobs: {ex.Message}");
+                }
+            }
+        }
+
+        private void ImportJobs_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json",
+                DefaultExt = ".json"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var filePath = openFileDialog.FileName;
+                try
+                {
+                    var importedJobs = _jobManager.LoadJobs(filePath);
+                    foreach (var job in importedJobs)
+                    {
+                        if (!Enum.IsDefined(typeof(ModelType), job.ModelType))
+                        {
+                            job.ModelType = ModelType.Lora; // Default to Lora if invalid value
+                            job.Enabled = false;
+                            job.Errors = "Invalid ModelType detected during import. Set to default (Lora) and disabled.";
+                        }
+                        DownloadModelJobs.Add(job);
+                    }
+                    dataGrid.Items.Refresh();
+                    SaveData(); // Save the imported jobs to the main jobs.json
+                    MessageBox.Show("Jobs imported successfully.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error importing jobs: {ex.Message}");
+                }
+            }
+        }
+
+
+
+        private void CreateNewJob_Click(object sender, RoutedEventArgs e)
+        {
+            var newJob = new DownloadModelJob
+            {
+                Name = "New Job",
+                ModelUrl = "",
+                ModelType = ModelType.Lora,
+                ModelDownloadPath = "",
+                Downloaded = false,
+                ModelDownloadLink = "",
+                LastDownloaded = DateTime.Now,
+                Errors = null,
+                Enabled = false
+            };
+            DownloadModelJobs.Add(newJob);
+            dataGrid.Items.Refresh();
+            SaveData(); // Save data after adding a new job
         }
     }
 }

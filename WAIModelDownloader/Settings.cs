@@ -9,34 +9,28 @@ namespace WAIModelDownloader
         public string BaseDirectory { get; set; } = "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\";
         public List<string> PathCheckpoints { get; set; } = new List<string>();
         public List<string> PathLoras { get; set; } = new List<string>();
+        public List<string> PathUpscalers { get; set; } = new List<string>();
+        public string PathTextualInversion { get; set; }
         public string PathEmbeddings { get; set; }
-        public string PathVaeApprox { get; set; }
-        public string PathVae { get; set; }
-        public string PathUpscaleModels { get; set; }
-        public string PathInpaint { get; set; }
-        public string PathControlnet { get; set; }
-        public string PathClipVision { get; set; }
-        public string PathFooocusExpansion { get; set; }
-        public string PathWildcards { get; set; }
-        public string PathSafetyChecker { get; set; }
-        public string PathOutputs { get; set; }
+        public string PathVAE { get; set; }
+        public string PathControlNet { get; set; }
+        public string PathStyleGAN { get; set; }
+        public string PathInpainting { get; set; }
+        public string PathSuperResolution { get; set; }
 
         public void UpdatePaths(string baseDirectory)
         {
             BaseDirectory = baseDirectory;
             PathCheckpoints = new List<string> { Path.Combine(baseDirectory, "models", "checkpoints") };
             PathLoras = new List<string> { Path.Combine(baseDirectory, "models", "loras") };
+            PathUpscalers = new List<string> { Path.Combine(baseDirectory, "models", "upscalers") };
+            PathTextualInversion = Path.Combine(baseDirectory, "models", "textual_inversion");
             PathEmbeddings = Path.Combine(baseDirectory, "models", "embeddings");
-            PathVaeApprox = Path.Combine(baseDirectory, "models", "vae_approx");
-            PathVae = Path.Combine(baseDirectory, "models", "vae");
-            PathUpscaleModels = Path.Combine(baseDirectory, "models", "upscale_models");
-            PathInpaint = Path.Combine(baseDirectory, "models", "inpaint");
-            PathControlnet = Path.Combine(baseDirectory, "models", "controlnet");
-            PathClipVision = Path.Combine(baseDirectory, "models", "clip_vision");
-            PathFooocusExpansion = Path.Combine(baseDirectory, "models", "prompt_expansion", "fooocus_expansion");
-            PathWildcards = Path.Combine(baseDirectory, "wildcards");
-            PathSafetyChecker = Path.Combine(baseDirectory, "models", "safety_checker");
-            PathOutputs = Path.Combine(baseDirectory, "outputs");
+            PathVAE = Path.Combine(baseDirectory, "models", "vae");
+            PathControlNet = Path.Combine(baseDirectory, "models", "controlnet");
+            PathStyleGAN = Path.Combine(baseDirectory, "models", "stylegan");
+            PathInpainting = Path.Combine(baseDirectory, "models", "inpainting");
+            PathSuperResolution = Path.Combine(baseDirectory, "models", "super_resolution");
         }
 
         public void Save(string filePath)
