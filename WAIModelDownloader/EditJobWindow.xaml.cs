@@ -12,6 +12,11 @@ namespace WAIModelDownloader
             InitializeComponent();
             _job = job;
             DataContext = _job;
+
+            if (_job.ModelType == 0) // Default to Lora if not set
+            {
+                _job.ModelType = ModelType.Lora;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

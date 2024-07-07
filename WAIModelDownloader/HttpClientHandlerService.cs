@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 public class HttpClientHandlerService
@@ -24,6 +23,8 @@ public class HttpClientHandlerService
 
         _client = new HttpClient(_handler);
     }
+
+    public HttpClient HttpClient => _client; // Expose HttpClient through a property
 
     public async Task<bool> AuthenticateAsync(string loginLink)
     {
@@ -65,11 +66,11 @@ public class HttpClientHandlerService
         try
         {
             Log("Downloading file from: " + url + " to: " + outputPath);
-            var response = await _client.GetAsync(url);
+            var response = await _client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
             LogResponse(response);
             response.EnsureSuccessStatusCode();
 
-            using (var fs = new FileStream(outputPath, FileMode.Create))
+            using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
             {
                 await response.Content.CopyToAsync(fs);
             }

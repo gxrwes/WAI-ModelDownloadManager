@@ -3,40 +3,57 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Model Download App" Height="450" Width="800">
     <Grid>
-        <Menu VerticalAlignment="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Settings" Click="OpenSettings_Click"/>
-            </MenuItem>
-        </Menu>
-        <StackPanel Margin="10,30,10,10">
-            <Button Content="DOWNLOAD" Click="DownloadButton_Click" Height="40" VerticalAlignment="Top"/>
-            <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10,10,10,10">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                    <DataGridTextColumn Header="Model URL" Binding="{Binding ModelUrl}" Width="*"/>
-                    <DataGridTextColumn Header="Model Type" Binding="{Binding ModelType}" Width="*"/>
-                    <DataGridTextColumn Header="Download Path" Binding="{Binding ModelDownloadPath}" Width="*"/>
-                    <DataGridTemplateColumn Header="Open Path" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Open" Command="{Binding OpenPathCommand}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Downloaded" Binding="{Binding Downloaded}" Width="*"/>
-                    <DataGridTextColumn Header="Download Link" Binding="{Binding ModelDownloadLink}" Width="*"/>
-                    <DataGridTextColumn Header="Last Downloaded" Binding="{Binding LastDownloaded}" Width="*"/>
-                    <DataGridTextColumn Header="Errors" Binding="{Binding Errors}" Width="*"/>
-                    <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}" Width="*"/>
-                    <DataGridTemplateColumn Header="Edit" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Edit" Click="EditJob_Click"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="logo.png" 
+               VerticalAlignment="Top" 
+               HorizontalAlignment="Left" 
+               Width="100" 
+               Height="100" 
+               Margin="10"/>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+            <Button Content="DOWNLOAD" Click="DownloadButton_Click" Height="40" VerticalAlignment="Top" Margin="10"/>
+            <Button Content="Create New Job" Click="CreateNewJob_Click" Height="39" Width="86"/>
         </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="10">
+            <StackPanel>
+                <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10,10,10,10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Model URL" Binding="{Binding ModelUrl}" Width="*"/>
+                        <DataGridTextColumn Header="Model Type" Binding="{Binding ModelType}" Width="*"/>
+                        <DataGridTextColumn Header="Download Path" Binding="{Binding ModelDownloadPath}" Width="*"/>
+                        <DataGridTemplateColumn Header="Open Path" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Open" Command="{Binding OpenPathCommand}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Downloaded" Binding="{Binding Downloaded}" Width="*"/>
+                        <DataGridTextColumn Header="Download Link" Binding="{Binding ModelDownloadLink}" Width="*"/>
+                        <DataGridTextColumn Header="Last Downloaded" Binding="{Binding LastDownloaded}" Width="*"/>
+                        <DataGridTextColumn Header="Errors" Binding="{Binding Errors}" Width="*"/>
+                        <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}" Width="*"/>
+                        <DataGridTemplateColumn Header="Edit" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Edit" Click="EditJob_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

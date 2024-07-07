@@ -16,9 +16,17 @@ namespace WAIModelDownloader
             doc.LoadHtml(html);
 
             // Extract type if not already set
-            if (string.IsNullOrEmpty(job.ModelType))
+            if (string.IsNullOrEmpty(job.ModelType.ToString()))
             {
-                job.ModelType = ExtractType(doc) ?? "lora";
+                string modelType = ExtractType(doc) ?? "Lora";
+                if (Enum.TryParse(modelType, out ModelType parsedModelType))
+                {
+                    job.ModelType = parsedModelType;
+                }
+                else
+                {
+                    job.ModelType = ModelType.Lora; // Default to Lora if parsing fails
+                }
             }
 
             // Extract download links
@@ -53,7 +61,6 @@ namespace WAIModelDownloader
                     }
                 }
             }
-
             return null;
         }
 
