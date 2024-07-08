@@ -5,6 +5,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -12,19 +13,45 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Image Source="logo.png" 
-               VerticalAlignment="Top" 
-               HorizontalAlignment="Left" 
-               Width="100" 
-               Height="100" 
-               Margin="10"/>
+        <!-- Viewbox to scale the cropped image, placed first to be in the background -->
+        <Viewbox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                 Stretch="Fill"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Left"
+                 Width="126"
+                 Height="119"
+                 Margin="5"
+                 Panel.ZIndex="-1">
+            <!-- Cropped Image -->
+            <Rectangle Width="126" Height="119">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="Assets/logo.png">
+                        <ImageBrush.Viewbox>
+                            <!-- Cropping the image by 20% from each side -->
+                            <Rect X="0.1" Y="0.1" Width="0.7" Height="0.7"/>
+                        </ImageBrush.Viewbox>
+                        <ImageBrush.ViewboxUnits>RelativeToBoundingBox</ImageBrush.ViewboxUnits>
+                    </ImageBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Viewbox>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-            <Button Content="DOWNLOAD" Click="DownloadButton_Click" Height="40" VerticalAlignment="Top" Margin="10"/>
-            <Button Content="Create New Job" Click="CreateNewJob_Click" Height="39" Width="86"/>
+        <!-- Menu for Settings, Export, and Import -->
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Settings" Click="OpenSettings_Click"/>
+                <MenuItem Header="Export Jobs" Click="ExportJobs_Click"/>
+                <MenuItem Header="Import Jobs" Click="ImportJobs_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- StackPanel for Buttons -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
+            <Button Content="DOWNLOAD" Click="DownloadButton_Click" Height="40" Margin="10,0"/>
+            <Button Content="Create New Job" Click="CreateNewJob_Click" Height="40" Margin="10,0"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="10">
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="10,0,10,10">
             <StackPanel>
                 <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10,10,10,10">
                     <DataGrid.Columns>
