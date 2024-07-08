@@ -29,7 +29,6 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
    - Navigate to `Build` -> `Build Solution` or press `Ctrl+Shift+B`.
 
 4. The build artifacts will be located in the `build/WAIModelDownloader` directory.
-
 ## Setup
 
 1. **Configuration Files**: The application uses `settings.json` and `credentials.json` for configuration.
@@ -66,24 +65,31 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
 
 ## Usage
 
-1. **Configuring Download Jobs**:
+1. **Main Window**:
+   - The main window allows you to manage your download jobs.
+   ![Main Window](Documentation/mainWindow.png)
+
+2. **Configuring Download Jobs**:
    - Open the application and navigate to the main window.
    - Click on `Add Job` to create a new download job.
    - Fill in the details such as Name, Model URL, Model Type, and Download Path.
    - Click `Save` to add the job to the list.
+   ![Edit Job Window](Documentation/editJobWindow.png)
 
-2. **Managing Jobs**:
+3. **Managing Jobs**:
    - Select a job from the list and click `Edit Job` to modify its details.
    - Use the `Delete Job` button to remove a job from the list.
+   ![Main Window with Settings Showing](Documentation/mainWindow_settingsShowing.png)
 
-3. **Downloading Models**:
+4. **Downloading Models**:
    - Click the `Download` button to start the download process for all enabled jobs.
    - The download progress will be displayed in a separate window.
 
-4. **Settings**:
+5. **Settings**:
    - Click on `Settings` to open the settings window.
    - Update the Base Directory, Paths, and Login Link as needed.
    - Click `Save` to apply the changes.
+   ![Settings Window](Documentation/SettingsWindow.png)
 
 ## Roadmap
 
@@ -104,6 +110,4 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
 - Added user interface improvements and bug fixes.
 - Enhanced the settings window to include credential management.
 - Improved download job management and logging.
-
-Feel free to contribute to this project by submitting issues or pull requests on the GitHub repository.
 
