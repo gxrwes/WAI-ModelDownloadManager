@@ -105,6 +105,8 @@ namespace WAIModelDownloader
             Log(downloadProgressWindow, "Authentication successful. Starting download of enabled jobs.");
 
             var enabledJobs = new ObservableCollection<DownloadModelJob>(DownloadModelJobs.Where(job => job.Enabled && !job.Downloaded));
+            int totalJobs = enabledJobs.Count;
+            int completedJobs = 0;
 
             for (int i = 0; i < enabledJobs.Count; i++)
             {
@@ -131,6 +133,8 @@ namespace WAIModelDownloader
                     LogError(downloadProgressWindow, $"Error downloading job: {job.Name}", ex);
                 }
 
+                completedJobs++;
+                downloadProgressWindow.UpdateJobProgress(completedJobs, totalJobs);
                 dataGrid.Items.Refresh();
                 SaveData();
             }
@@ -138,6 +142,7 @@ namespace WAIModelDownloader
             downloadProgressWindow.UpdateProgress(100, "Download Complete", "All jobs completed.");
             Log(downloadProgressWindow, "All downloads completed.");
         }
+
 
         private void SaveData()
         {

@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Pythonnet" Version="3.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,10 @@
     <None Update="settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SafeTensorManagement\python\" />
   </ItemGroup>
 
 </Project>

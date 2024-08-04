@@ -34,7 +34,7 @@ namespace WAIModelDownloader
                     Directory.CreateDirectory(tempFolder);
                 }
 
-                string fileName = Path.GetFileName(job.ModelDownloadLink);
+                string fileName = Path.GetFileName(job.Name);
                 string tempFilePath = Path.Combine(tempFolder, fileName);
 
                 await DownloadFileAsync(job.ModelDownloadLink, tempFilePath, downloadProgressWindow);

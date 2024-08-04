@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
@@ -14,7 +12,6 @@ namespace WAIModelDownloader.Jobs
         public string Name { get; set; }
         public string ModelUrl { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
         public ModelType ModelType { get; set; }
 
         public string ModelDownloadPath { get; set; }
@@ -23,11 +20,14 @@ namespace WAIModelDownloader.Jobs
         public DateTime? LastDownloaded { get; set; }
         public string Errors { get; set; }
         public bool Enabled { get; set; }
+
         public ICommand OpenPathCommand { get; set; }
+        public ICommand ViewMetadataCommand { get; set; }
 
         public DownloadModelJob()
         {
             OpenPathCommand = new RelayCommand(OpenPath);
+            ViewMetadataCommand = new RelayCommand(ViewMetadata, CanViewMetadata);
         }
 
         private void OpenPath()
@@ -66,6 +66,17 @@ namespace WAIModelDownloader.Jobs
                     }
                 }
             }
+        }
+
+        private bool CanViewMetadata()
+        {
+            return Downloaded && !string.IsNullOrEmpty(ModelDownloadPath);
+        }
+
+        private void ViewMetadata()
+        {
+            var viewWindow = new ViewSafetensorWindow(ModelDownloadPath);
+            viewWindow.Show();
         }
 
         public void OnDeserialization(object sender)

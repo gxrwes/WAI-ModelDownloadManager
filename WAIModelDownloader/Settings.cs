@@ -17,6 +17,7 @@ namespace WAIModelDownloader
         public string PathStyleGAN { get; set; }
         public string PathInpainting { get; set; }
         public string PathSuperResolution { get; set; }
+        public string PythonPath { get; set; } // Add this line
 
         public void UpdatePaths(string baseDirectory)
         {
