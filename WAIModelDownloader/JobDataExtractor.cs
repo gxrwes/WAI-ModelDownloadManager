@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using WAIModelDownloader.Jobs;
 
 namespace WAIModelDownloader
@@ -44,6 +45,25 @@ namespace WAIModelDownloader
                     }
                 }
             }
+
+            // If no download link is found, use the backup builder
+            if (string.IsNullOrEmpty(job.ModelDownloadLink))
+            {
+                job.ModelDownloadLink = BackupJobDownloadLinkBuilder(job);
+            }
+        }
+
+        public string BackupJobDownloadLinkBuilder(DownloadModelJob job)
+        {
+            string template = "/api/download/models/{MODELV}?type=Model&format=SafeTensor";
+            string modelVersion = ExtractModelVersionId(job.ModelUrl);
+            return "https://civitai.com" + template.Replace("{MODELV}", modelVersion);
+        }
+
+        public string ExtractModelVersionId(string url)
+        {
+            var match = Regex.Match(url, @"[?&]modelVersionId=(\d+)");
+            return match.Success ? match.Groups[1].Value : string.Empty;
         }
 
         private string ExtractType(HtmlDocument doc)

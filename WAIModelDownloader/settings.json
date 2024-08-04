@@ -1,20 +1,14 @@
 {
   "BaseDirectory": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\",
-  "PathCheckpoints": [
-    "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\checkpoints"
-  ],
-  "PathLoras": [
-    "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\loras"
-  ],
+  "PathCheckpoints": [ "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\checkpoints" ],
+  "PathLoras": [ "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\loras" ],
+  "PathUpscalers": [ "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\upscalers" ],
+  "PathTextualInversion": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\textual_inversion",
   "PathEmbeddings": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\embeddings",
-  "PathVaeApprox": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\vae_approx",
-  "PathVae": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\vae",
-  "PathUpscaleModels": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\upscale_models",
-  "PathInpaint": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\inpaint",
-  "PathControlnet": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\controlnet",
-  "PathClipVision": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\clip_vision",
-  "PathFooocusExpansion": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\prompt_expansion\\fooocus_expansion",
-  "PathWildcards": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\wildcards",
-  "PathSafetyChecker": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\safety_checker",
-  "PathOutputs": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\outputs"
+  "PathVAE": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\vae",
+  "PathControlNet": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\controlnet",
+  "PathStyleGAN": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\stylegan",
+  "PathInpainting": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\inpainting",
+  "PathSuperResolution": "C:\\DEVD\\AI\\Fooocus_win64_2-1-831\\Fooocus\\models\\super_resolution",
+  "PythonPath": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0" // Use the actual path
 }

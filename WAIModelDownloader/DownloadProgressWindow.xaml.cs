@@ -16,5 +16,10 @@ namespace WAIModelDownloader
             LogTextBox.AppendText(log + "\n");
             LogTextBox.ScrollToEnd();
         }
+
+        public void UpdateJobProgress(int completedJobs, int totalJobs)
+        {
+            JobProgressTextBlock.Text = $"Jobs Completed: {completedJobs}/{totalJobs}";
+        }
     }
 }

@@ -13,7 +13,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Viewbox to scale the cropped image, placed first to be in the background -->
         <Viewbox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
                  Stretch="Fill"
                  VerticalAlignment="Top"
@@ -22,12 +21,10 @@
                  Height="119"
                  Margin="5"
                  Panel.ZIndex="-1">
-            <!-- Cropped Image -->
             <Rectangle Width="126" Height="119">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="Assets/logo.png">
                         <ImageBrush.Viewbox>
-                            <!-- Cropping the image by 20% from each side -->
                             <Rect X="0.1" Y="0.1" Width="0.7" Height="0.7"/>
                         </ImageBrush.Viewbox>
                         <ImageBrush.ViewboxUnits>RelativeToBoundingBox</ImageBrush.ViewboxUnits>
@@ -36,7 +33,6 @@
             </Rectangle>
         </Viewbox>
 
-        <!-- Menu for Settings, Export, and Import -->
         <Menu Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Settings" Click="OpenSettings_Click"/>
@@ -45,7 +41,6 @@
             </MenuItem>
         </Menu>
 
-        <!-- StackPanel for Buttons -->
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
             <Button Content="DOWNLOAD" Click="DownloadButton_Click" Height="40" Margin="10,0"/>
             <Button Content="Create New Job" Click="CreateNewJob_Click" Height="40" Margin="10,0"/>
@@ -75,6 +70,13 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Edit" Click="EditJob_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="View Metadata" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="View Metadata" Command="{Binding ViewMetadataCommand}" IsEnabled="{Binding Downloaded}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

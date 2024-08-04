@@ -13,6 +13,10 @@
             <TextBlock Text="Path to Loras"/>
             <TextBox x:Name="PathLorasTextBox" Text="{Binding PathLoras[0], Mode=TwoWay}"/>
 
+            <TextBlock Text="Python Path"/>
+            <!-- Add this block -->
+            <TextBox x:Name="PythonPathTextBox" Text="{Binding PythonPath, Mode=TwoWay}"/>
+
             <TextBlock Text="Login Link"/>
             <TextBox x:Name="LoginLinkTextBox" Text=""/>
 
