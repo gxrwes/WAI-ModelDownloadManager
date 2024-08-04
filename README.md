@@ -1,4 +1,4 @@
-# WAIModelDownloadManager
+# WAIModelDownloader
 
 WAIModelDownloader is a WPF application designed to automate the downloading and management of machine learning models from various sources. This application allows users to configure download jobs, extract and download model files, and manage these models efficiently. The app supports different types of models including LoRA, Checkpoints, and ControlNet models, and is particularly useful for those working with Stable Diffusion models.
 
@@ -8,6 +8,7 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
 - Manage and organize downloaded models in specified directories.
 - Edit job details and update settings through a user-friendly interface.
 - Authentication support for sources requiring login.
+- Backup download link generation to ensure reliable access to model downloads.
 
 ## Installation
 
@@ -15,20 +16,20 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
    - Navigate to the [Releases](https://github.com/gxrwes/WAI-ModelDownloadManager/releases) page of the repository.
    - Download the latest `WAIModelDownloader_<timestamp>_<commit>.zip` file.
 
-## Alternativeley
+## Alternatively
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/WAIModelDownloader.git
    ```
 
-   
 2. Open the solution in Visual Studio.
 
 3. Build the project:
    - Navigate to `Build` -> `Build Solution` or press `Ctrl+Shift+B`.
 
 4. The build artifacts will be located in the `build/WAIModelDownloader` directory.
+
 ## Setup
 
 1. **Configuration Files**: The application uses `settings.json` and `credentials.json` for configuration.
@@ -111,3 +112,6 @@ WAIModelDownloader is a WPF application designed to automate the downloading and
 - Enhanced the settings window to include credential management.
 - Improved download job management and logging.
 
+### Version 1.2.0
+- Implemented backup download link generation.
+- Various bug fixes and performance improvements.
